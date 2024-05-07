@@ -4,7 +4,6 @@ namespace Liquipedia\Extension\NetworkNotice\SpecialPage;
 
 use Html;
 use HTMLForm;
-use Liquipedia\Extension\NetworkNotice\Colors;
 use Liquipedia\Extension\NetworkNotice\NoticeHtml;
 use Status;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -62,7 +61,6 @@ class SpecialNetworkNotice extends \SpecialPage {
 					$formDefaults[ 'NoticeId' ] = $row->notice_id;
 					$formDefaults[ 'NoticeLabel' ] = $row->label;
 					$formDefaults[ 'NoticeText' ] = $row->notice_text;
-					$formDefaults[ 'NoticeStyle' ] = $row->style;
 					$formDefaults[ 'NoticeNamespace' ] = $row->namespace;
 					$formDefaults[ 'NoticeWiki' ] = $row->wiki;
 					$formDefaults[ 'NoticeCategory' ] = $row->category;
@@ -104,20 +102,6 @@ class SpecialNetworkNotice extends \SpecialPage {
 			'rows' => 10,
 			'required' => true,
 			'default' => ( $isEdit ? $formDefaults[ 'NoticeText' ] : '' )
-		];
-		$formDescriptor[ 'NoticeStyle' ] = [
-			'type' => 'select',
-			'label-message' => 'networknotice-create-notice-style-label',
-			'help-message' => 'networknotice-create-notice-style-helper',
-			'required' => true,
-			'options' => ( static function ( $colors ) {
-					$dropDown = [];
-					foreach ( $colors as $color ) {
-						$dropDown[ $color ] = $color;
-					}
-					return $dropDown;
-			} )( Colors::getNoticeColors() ),
-			'default' => $isEdit ? $formDefaults[ 'NoticeStyle' ] : ''
 		];
 		$formDescriptor[ 'NoticeNamespace' ] = [
 			'type' => 'text',
@@ -229,8 +213,6 @@ class SpecialNetworkNotice extends \SpecialPage {
 						foreach ( $currentnotices as $row ) {
 							$preContent = $this->msg( 'networknotice-create-notice-text-label' )->text()
 								. ' ' . $row->notice_text . "\n";
-							$preContent .= $this->msg( 'networknotice-create-notice-style-label' )->text()
-								. ' ' . $row->style . "\n";
 							if ( $row->wiki ) {
 								$preContent .= $this->msg( 'networknotice-create-notice-wiki-label' )->text()
 									. ' ' . $row->wiki . "\n";
@@ -315,7 +297,6 @@ class SpecialNetworkNotice extends \SpecialPage {
 			$output->addHTML(
 				NoticeHtml::getNoticeHTML(
 					$output,
-					$formData[ 'NoticeStyle' ],
 					$formData[ 'NoticeText' ]
 				)
 			);
@@ -323,7 +304,6 @@ class SpecialNetworkNotice extends \SpecialPage {
 			$vars = [
 				'label' => $formData[ 'NoticeLabel' ],
 				'notice_text' => $formData[ 'NoticeText' ],
-				'style' => $formData[ 'NoticeStyle' ],
 				'namespace' => $formData[ 'NoticeNamespace' ],
 				'wiki' => $formData[ 'NoticeWiki' ],
 				'category' => $formData[ 'NoticeCategory' ],
@@ -380,7 +360,6 @@ class SpecialNetworkNotice extends \SpecialPage {
 					'notice_id',
 					'label',
 					'notice_text',
-					'style',
 					'wiki',
 					'category',
 					'prefix',
@@ -403,7 +382,6 @@ class SpecialNetworkNotice extends \SpecialPage {
 					'notice_id',
 					'label',
 					'notice_text',
-					'style',
 					'wiki',
 					'category',
 					'prefix',

@@ -16,12 +16,12 @@ class MainHookHandler implements
 {
 
 	/**
-	 * Add our CSS files to the page
+	 * Add our JS and CSS files to the page
 	 * @param OutputPage $out
 	 * @param Skin $skin
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
-		$out->addModuleStyles( 'ext.networknotice.Notice' );
+		$out->addModules( 'ext.networknotice.Notice' );
 	}
 
 	/**
@@ -57,7 +57,6 @@ class MainHookHandler implements
 			'networknotice',
 			[
 				'notice_text',
-				'style',
 				'category',
 				'prefix',
 				'notice_id'
@@ -75,7 +74,6 @@ class MainHookHandler implements
 			if ( empty( $row->category ) ) {
 				$siteNotice .= NoticeHtml::getNoticeHTML(
 					$out,
-					$row->style,
 					$row->notice_text,
 					$row->notice_id
 				 );
@@ -84,7 +82,6 @@ class MainHookHandler implements
 					if ( $category === $row->category ) {
 						$siteNotice .= NoticeHtml::getNoticeHTML(
 							$out,
-							$row->style,
 							$row->notice_text,
 							$row->notice_id
 						);

@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "wikimedia/mediawiki",
+    "wikimedia/client/common",
+    "wikimedia/language/es2020"
+  ],
+  "globals": {
+    "require": "readonly",
+    "module": "readonly",
+    "OO": "readonly"
+  },
+  "rules": {
+    "space-before-function-paren": "off",
+    "no-jquery/no-global-selector": "off",
+    "vars-on-top": "off",
+    "one-var": "off",
+    "no-use-before-define": "off",
+    "mediawiki/class-doc": "off",
+    "mediawiki/no-nodelist-unsupported-methods": "off",
+    "jsdoc/require-param-type": "off"
+  }
+}
