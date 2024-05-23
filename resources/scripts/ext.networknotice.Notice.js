@@ -54,6 +54,6 @@
 			if ( [ 'interactive', 'complete' ].includes( document.readyState ) ) {
 				init();
 			}
-		}, { once = true } );
+		}, { once: true } );
 	}
 }( window, document ) );
